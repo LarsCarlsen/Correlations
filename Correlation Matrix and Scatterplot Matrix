@@ -1,0 +1,45 @@
+# Correlation Matrix and Scatterplot Matrix
+library(gclus)
+library(cluster)
+data <- read.table("C:/Rwork/Data/QoL/QoLwithHousing.txt", header=TRUE)
+Data<-data[2:4]
+Data
+
+#CORRELATION
+
+Data.r = abs(cor(Data))
+Data.col = dmat.color(Data.r,colors()[c(536,383,103)])
+#col=10:115)
+Data.o <- order.single(Data.r)
+cpairs(Data, Data.o, panel.colors=Data.col, gap=.5,
+main="Variables Ordered and Colored by Correlation")
+cor(Data)
+
+# PARTIAL CORRELATION COEFFICIENTS
+library(ggm)
+
+# pcor(c("a", "b", "x", "y", "z"), var(data))
+# partial corr between a and b controlling for x, y, z 
+# pcor.test(q,r,s) with q: the pcor value, r: the number of controlling parameters
+# and s: tyhe sample size
+
+A<-pcor(c("APR", "RPR", "EIR"), var(Data))
+A
+pcor.test(A,1,88)
+
+B<-pcor(c("APR", "EIR", "RPR"), var(Data))
+B
+pcor.test(B,1,88)
+
+C<-pcor(c("EIR", "RPR", "APR"), var(Data))
+C
+pcor.test(C,1,88)
+
+
+
+
+
+
+
+
+
